@@ -3,10 +3,10 @@
     class Program
     {
         [STAThread]
-        static void Main()
+        static void Main ()
         {
-            Application.EnableVisualStyles();
-            Application.Run(new Form1());
+            Application.EnableVisualStyles ();
+            Application.Run (new Form1 ());
         }
     }
 }

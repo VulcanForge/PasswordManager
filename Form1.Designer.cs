@@ -11,13 +11,13 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose (bool disposing)
         {
             if (disposing && (components != null))
             {
-                components.Dispose();
+                components.Dispose ();
             }
-            base.Dispose(disposing);
+            base.Dispose (disposing);
         }
 
         #region Windows Form Designer generated code
@@ -26,80 +26,86 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent ()
         {
-            this.decryptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.encryptDialog = new System.Windows.Forms.SaveFileDialog();
-            this.textBoxPassword = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.buttonEncrypt = new System.Windows.Forms.Button();
-            this.buttonDecrypt = new System.Windows.Forms.Button();
-            this.textBoxContents = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            decryptDialog = new OpenFileDialog ();
+            encryptDialog = new SaveFileDialog ();
+            textBoxPassword = new TextBox ();
+            label1 = new Label ();
+            buttonEncrypt = new Button ();
+            buttonDecrypt = new Button ();
+            textBoxContents = new TextBox ();
+            SuspendLayout ();
             // 
             // decryptDialog
             // 
-            this.decryptDialog.FileName = "openFileDialog1";
+            decryptDialog.FileName = "openFileDialog1";
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(91, 418);
-            this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(697, 27);
-            this.textBoxPassword.TabIndex = 3;
+            textBoxPassword.Location = new Point (16, 800);
+            textBoxPassword.Margin = new Padding (5);
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.Size = new Size (1152, 48);
+            textBoxPassword.TabIndex = 3;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 421);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Password:";
+            label1.AutoSize = true;
+            label1.Location = new Point (16, 736);
+            label1.Margin = new Padding (5, 0, 5, 0);
+            label1.Name = "label1";
+            label1.Size = new Size (116, 32);
+            label1.TabIndex = 1;
+            label1.Text = "Password:";
             // 
             // buttonEncrypt
             // 
-            this.buttonEncrypt.Location = new System.Drawing.Point(12, 383);
-            this.buttonEncrypt.Name = "buttonEncrypt";
-            this.buttonEncrypt.Size = new System.Drawing.Size(128, 29);
-            this.buttonEncrypt.TabIndex = 1;
-            this.buttonEncrypt.Text = "Encrypt File";
-            this.buttonEncrypt.UseVisualStyleBackColor = true;
-            this.buttonEncrypt.Click += new System.EventHandler(this.EncryptFile);
+            buttonEncrypt.Location = new Point (1184, 736);
+            buttonEncrypt.Margin = new Padding (5);
+            buttonEncrypt.Name = "buttonEncrypt";
+            buttonEncrypt.Size = new Size (256, 48);
+            buttonEncrypt.TabIndex = 1;
+            buttonEncrypt.Text = "Encrypt File";
+            buttonEncrypt.UseVisualStyleBackColor = true;
+            buttonEncrypt.Click += EncryptFile;
             // 
             // buttonDecrypt
             // 
-            this.buttonDecrypt.Location = new System.Drawing.Point(146, 383);
-            this.buttonDecrypt.Name = "buttonDecrypt";
-            this.buttonDecrypt.Size = new System.Drawing.Size(128, 29);
-            this.buttonDecrypt.TabIndex = 2;
-            this.buttonDecrypt.Text = "Decrypt File";
-            this.buttonDecrypt.UseVisualStyleBackColor = true;
-            this.buttonDecrypt.Click += new System.EventHandler(this.DecryptFile);
+            buttonDecrypt.Location = new Point (1184, 800);
+            buttonDecrypt.Margin = new Padding (5);
+            buttonDecrypt.Name = "buttonDecrypt";
+            buttonDecrypt.Size = new Size (256, 48);
+            buttonDecrypt.TabIndex = 2;
+            buttonDecrypt.Text = "Decrypt File";
+            buttonDecrypt.UseVisualStyleBackColor = true;
+            buttonDecrypt.Click += DecryptFile;
             // 
             // textBoxContents
             // 
-            this.textBoxContents.Location = new System.Drawing.Point(12, 12);
-            this.textBoxContents.Multiline = true;
-            this.textBoxContents.Name = "textBoxContents";
-            this.textBoxContents.Size = new System.Drawing.Size(776, 365);
-            this.textBoxContents.TabIndex = 0;
+            textBoxContents.Location = new Point (0, 0);
+            textBoxContents.Margin = new Padding (5);
+            textBoxContents.Multiline = true;
+            textBoxContents.Name = "textBoxContents";
+            textBoxContents.ScrollBars = ScrollBars.Vertical;
+            textBoxContents.Size = new Size (1440, 720);
+            textBoxContents.TabIndex = 0;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBoxContents);
-            this.Controls.Add(this.buttonDecrypt);
-            this.Controls.Add(this.buttonEncrypt);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBoxPassword);
-            this.Name = "Form1";
-            this.Text = "Password Manager";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF (13F, 32F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size (1440, 900);
+            Controls.Add (textBoxContents);
+            Controls.Add (buttonDecrypt);
+            Controls.Add (buttonEncrypt);
+            Controls.Add (label1);
+            Controls.Add (textBoxPassword);
+            Margin = new Padding (5);
+            Name = "Form1";
+            Text = "Password Manager";
+            ResumeLayout (false);
+            PerformLayout ();
         }
 
         #endregion
