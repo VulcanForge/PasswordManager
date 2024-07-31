@@ -17,9 +17,9 @@ namespace PasswordManager
                 return;
 
             byte[] encrypted;
-            var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, 8, 1024);
+            var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, 64, 300000, HashAlgorithmName.SHA512);
             var aes = Aes.Create ();
-            aes.Key = rfc.GetBytes (16);
+            aes.Key = rfc.GetBytes (32);
 
             using (var ms = new MemoryStream ())
             {
@@ -59,9 +59,9 @@ namespace PasswordManager
                     int ivLength = ms.ReadByte ();
                     byte[] iv = new byte[ivLength];
                     ms.Read (iv, 0, ivLength);
-                    var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, salt, 1024);
+                    var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, salt, 300000, HashAlgorithmName.SHA512);
                     var aes = Aes.Create ();
-                    aes.Key = rfc.GetBytes (16);
+                    aes.Key = rfc.GetBytes (32);
                     aes.IV = iv;
 
                     using (var cs = new CryptoStream (ms, aes.CreateDecryptor (), CryptoStreamMode.Read))
