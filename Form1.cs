@@ -16,27 +16,30 @@ namespace PasswordManager
             if (dialogResult != DialogResult.OK)
                 return;
 
-            byte[] encrypted;
-            var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, 64, 300000, HashAlgorithmName.SHA512);
-            var aes = Aes.Create ();
-            aes.Key = rfc.GetBytes (32);
 
-            using (var ms = new MemoryStream ())
+            using (var aes = Aes.Create ())
             {
-                using (var cs = new CryptoStream (ms, aes.CreateEncryptor (), CryptoStreamMode.Write))
-                {
-                    using (var sw = new StreamWriter (cs))
-                    {
-                        sw.Write (textBoxContents.Text);
-                    }
-                    encrypted = ms.ToArray ();
-                }
-            }
+                byte[] salt = RandomNumberGenerator.GetBytes (64);
+                aes.Key = Rfc2898DeriveBytes.Pbkdf2 (textBoxPassword.Text, salt, 300000, HashAlgorithmName.SHA512, 32);
+                byte[] encrypted;
 
-            byte[] toWrite = (new byte[] { (byte)rfc.Salt.Length }).Concat (rfc.Salt)
-                .Concat (new byte[] { (byte)aes.IV.Length }).Concat (aes.IV)
-                .Concat (encrypted).ToArray ();
-            File.WriteAllBytes (encryptDialog.FileName, toWrite);
+                using (var ms = new MemoryStream ())
+                {
+                    using (var cs = new CryptoStream (ms, aes.CreateEncryptor (), CryptoStreamMode.Write))
+                    {
+                        using (var sw = new StreamWriter (cs))
+                        {
+                            sw.Write (textBoxContents.Text);
+                        }
+                        encrypted = ms.ToArray ();
+                    }
+                }
+
+                byte[] toWrite = (new byte[] { (byte)salt.Length }).Concat (salt)
+                    .Concat ([(byte)aes.IV.Length]).Concat (aes.IV)
+                    .Concat (encrypted).ToArray ();
+                File.WriteAllBytes (encryptDialog.FileName, toWrite);
+            }
         }
 
         private void DecryptFile (object sender, EventArgs e)
@@ -47,6 +50,7 @@ namespace PasswordManager
                 return;
 
             byte[] toRead = File.ReadAllBytes (decryptDialog.FileName);
+
             try
             {
                 string decrypted;
@@ -59,16 +63,18 @@ namespace PasswordManager
                     int ivLength = ms.ReadByte ();
                     byte[] iv = new byte[ivLength];
                     ms.Read (iv, 0, ivLength);
-                    var rfc = new Rfc2898DeriveBytes (textBoxPassword.Text, salt, 300000, HashAlgorithmName.SHA512);
-                    var aes = Aes.Create ();
-                    aes.Key = rfc.GetBytes (32);
-                    aes.IV = iv;
 
-                    using (var cs = new CryptoStream (ms, aes.CreateDecryptor (), CryptoStreamMode.Read))
+                    using (var aes = Aes.Create ())
                     {
-                        using (var sr = new StreamReader (cs))
+                        aes.Key = Rfc2898DeriveBytes.Pbkdf2 (textBoxPassword.Text, salt, 300000, HashAlgorithmName.SHA512, 32);
+                        aes.IV = iv;
+
+                        using (var cs = new CryptoStream (ms, aes.CreateDecryptor (), CryptoStreamMode.Read))
                         {
-                            decrypted = sr.ReadToEnd ();
+                            using (var sr = new StreamReader (cs))
+                            {
+                                decrypted = sr.ReadToEnd ();
+                            }
                         }
                     }
                 }
